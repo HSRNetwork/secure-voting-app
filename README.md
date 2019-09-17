@@ -1,7 +1,7 @@
-# Voting App
+# Secured Voting App
 
 ## Purpose
-This voting application should provide you some entry level exercises which allows you to learn how to build Docker images and create Docker Compose files.
+This voting application should provide you some entry level exercises which allows you to learn how to build Docker images in a secure way and create Docker Compose files.
 
 ## Exercise
 Fix all TODOs and `...`'s and check if the whole voting application starts successfully using `docker-compose up`. Also ensure the vote webUI and repost webUI is available by accessing http://localhost:5000 and http://localhost:5001.

@@ -6,15 +6,18 @@ services:
     image: vote-webapp:1.0
     restart: on-failure
     ports:
-      - "5000:80"
+      - "5000:8080"
     networks:
       - front-tier
       - back-tier
     cap_drop:
-      # Drop all Linux capabilities
+      # TODO: Drop all Linux capabilities since this container only need some non critical Linux capabilities
       - ...
     cap_add:
-      # Only add a single required Linux capability: This container needs to bind its socket to a port smaller than 1024...
+      - CAP_CHOWN
+      # TODO: Beside changing the ownership of a process, this app also requires to change the UID and GID of a process. Allow it. 
+      # Search here for the regarding Linux capabilities: https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities
+      - ...
       - ...
 
   result:
@@ -24,7 +27,7 @@ services:
     depends_on:
       - "db"
     ports:
-      # TODO: Map the host port 5001 to the container's port 80. https://docs.docker.com/compose/compose-file/#ports
+      # TODO: Map the host port 5001 to the container's port 8080. https://docs.docker.com/compose/compose-file/#ports
       - "..."
     networks:
       - front-tier

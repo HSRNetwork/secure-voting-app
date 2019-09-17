@@ -2,33 +2,47 @@ version: "3.7"
 
 services:
   vote:
-    build: ./src/vote
+    # This build context/dockerfile definition is only required because this way 
+    # "docker-compose build" can be directly run inside the solution folder.
+    build:
+      context: ../src/vote
+      dockerfile: $PWD/vote/Dockerfile
     image: vote-webapp:1.0
     restart: on-failure
     ports:
-      - "5000:80"
+      - "5000:8080"
     networks:
       - front-tier
       - back-tier
     cap_drop:
       - ALL
     cap_add:
-      - CAP_NET_BIND_SERVICE
+      - CAP_CHOWN
+      - SETUID
+      - SETGID
 
   result:
-    build: ./src/result
+    # This build context/dockerfile definition is only required because this way 
+    # "docker-compose build" can be directly run inside the solution folder.
+    build:
+      context: ../src/result
+      dockerfile: $PWD/result/Dockerfile
     image: result-webapp:1.0
     restart: on-failure
     depends_on:
       - "db"
     ports:
-      - "5001:80"
+      - "5001:8080"
     networks:
       - front-tier
       - back-tier
 
   worker:
-    build: ./src/worker
+    # This build context/dockerfile definition is only required because this way 
+    # "docker-compose build" can be directly run inside the solution folder.
+    build:
+      context: ../src/worker
+      dockerfile: $PWD/worker/Dockerfile
     image: worker-app:1.0
     restart: on-failure
     depends_on:

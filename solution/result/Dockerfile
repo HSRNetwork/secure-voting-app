@@ -19,14 +19,14 @@ COPY . /app
 # Ensure the service user has access to the /app directory
 RUN chown -R node:node /app
 
-# Drop user priviledges to the already existing service user "node"
+# Drop user privileges to the already existing service user "node"
 USER node
 
-# Make port 80 available for links and/or publish
-EXPOSE 80
+# Make port 8080 available for links and/or publish
+EXPOSE 8080
 
 # Set the environment variable PORT inside the docker image. Node uses this to choose the port to run on.
-ENV PORT 80
+ENV PORT 8080
 
 # Define our default command to be run when launching the container
 ENTRYPOINT [ "node" ]
