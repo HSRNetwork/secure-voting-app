@@ -1,5 +1,12 @@
-# Using official python runtime base image
+# Using official and latest python runtime base image based in Linux Alpine
 FROM python:2.7.16-alpine3.10
+
+# Allow to specify the service user/group during the Docker image build
+# Use "gunicorn-svc-*" as default if build ARG is used.
+ARG SVC_USER
+ENV SVC_USER=${SVC_USER:-gunicorn-svc-user}
+ARG SVC_GROUP
+ENV SVC_GROUP=${SVC_GROUP:-gunicorn-svc-group}
 
 # Set the application directory
 RUN mkdir -p /app
@@ -12,9 +19,16 @@ RUN pip install -r requirements.txt
 # Copy our code from the current folder to /app inside the container
 COPY . /app
 
+# Create a service user
+RUN addgroup -S $SVC_GROUP && \
+    adduser -S $SVC_USER -G SVC_GROUP --no-create-home --uid 1000 --shell /sbin/nologin
+
+# Permit the service user to access the /app directory
+RUN chown -R $SVC_USER:$SVC_GROUP /app
+
 # Make port 80 available for links and/or publish
 EXPOSE 80
 
 # Define our default command to be run when launching the container
 ENTRYPOINT [ "gunicorn" ]
-CMD [ "app:app", "-b", "0.0.0.0:80", "--log-file", "-", "--access-logfile", "-", "--workers", "4", "--keep-alive", "0" ]
+CMD [ "app:app", "-b", "0.0.0.0:80", "--user", "${SVC_USER}", "--group", "${SVC_GROUP}", "--log-file", "-", "--access-logfile", "-", "--workers", "4", "--keep-alive", "0" ]

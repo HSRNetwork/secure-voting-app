@@ -1,6 +1,5 @@
-# Using official dotnet base image
-# FROM microsoft/dotnet:2.0.0-sdk
-FROM mcr.microsoft.com/dotnet/core/sdk:2.2
+# Using official and latest dotnet/core/sdk base image based on Linux Alpine
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2.402-alpine3.9
 
 # Set the application directory
 RUN mkdir -p /code

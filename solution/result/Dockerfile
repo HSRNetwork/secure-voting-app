@@ -1,5 +1,5 @@
-# Using official node runtime base image
-FROM node:8.16.0-alpine
+# Using official and latest node runtime base image based on Linux Alpine (tag name: current-alpine)
+FROM node:current-alpine
 
 # Set the application directory
 RUN mkdir -p /app
@@ -15,6 +15,12 @@ RUN npm install \
 
 # Copy our code from the current folder to /app inside the container
 COPY . /app
+
+# Ensure the service user has access to the /app directory
+RUN chown -R node:node /app
+
+# Drop user priviledges to the already existing service user "node"
+USER node
 
 # Make port 80 available for links and/or publish
 EXPOSE 80

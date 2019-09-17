@@ -10,6 +10,12 @@ services:
     networks:
       - front-tier
       - back-tier
+    cap_drop:
+      # Drop all Linux capabilities
+      - ...
+    cap_add:
+      # Only add a single required Linux capability: This container needs to bind its socket to a port smaller than 1024...
+      - ...
 
   result:
     build: ./src/result
