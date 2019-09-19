@@ -23,11 +23,11 @@ RUN chown -R node:node /app
 # TODO: Drop the privileges by switching to the user "node"
 ...
 
-# Make port 80 available for links and/or publish
-EXPOSE 80
+# Make port 8080 available for links and/or publish
+EXPOSE 8080
 
 # Set the environment variable PORT inside the docker image. Node uses this to choose the port to run on.
-ENV PORT 80
+ENV PORT 8080
 
 # Define our default command to be run when launching the container
 ENTRYPOINT [ "node" ]
